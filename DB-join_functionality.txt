@@ -93,6 +93,29 @@ Query
 
 7. Selezionare per ogni studente il numero di tentativi sostenuti per ogni esame, stampando anche il voto massimo. Successivamente, filtrare i tentativi con voto minimo 18.
 
-//
+// (tutti i voti)
+SELECT students.surname AS 'std_surname', students.name AS 'std_name', courses.name AS 'course_exame', COUNT(courses.id) AS 'number_exams', MAX(exam_student.vote) AS 'best_vote'
+FROM exam_student
+    JOIN students
+        ON exam_student.student_id = students.id
+    JOIN exams
+        ON exam_student.exam_id = exams.id
+    JOIN courses
+        ON exams.course_id = courses.id
+GROUP BY students.id, courses.id
+ORDER BY students.surname, students.name;
+\\
 
+// (solo voti maggiori o uguali a 18)
+SELECT students.surname AS 'std_surname', students.name AS 'std_name', courses.name AS 'course_exame', COUNT(courses.id) AS 'number_exams', MAX(exam_student.vote) AS 'best_vote'
+FROM exam_student
+    JOIN students
+        ON exam_student.student_id = students.id
+    JOIN exams
+        ON exam_student.exam_id = exams.id
+    JOIN courses
+        ON exams.course_id = courses.id
+WHERE exam_student.vote >= 18
+GROUP BY students.id, courses.id
+ORDER BY students.surname, students.name;
 \\
